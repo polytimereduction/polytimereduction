@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{property}{Property}
+\newtheorem{claim}[theorem]{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\title{Perfect matching free subgraph problem}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Lacroix, Mahjoub, Martin and Picoleau have a polynomial time reduction from one-in-three SAT to PMFSP. We survey their result. Given a bipartite graph $G=(U\cup V,E)$, such that $|U|=|V|$ and every edge is labelled true or false or both, the perfect matching free subgraph problem is to determine whether or not there exists a subgraph of $G$ containing, for each node $u$ of $U$, either all the edges labelled true or all the edges labelled false incident to $u$, and which does not contain a perfect matching. In their joint paper, the authors first show that the stable set problem in a restricted case of tripartite graphs can be reduced to the perfect matching free subgraph problem. Then, a reduction from one-in-three SAT to the stable set problem in a restricted case of tripartite graphs is present to finish the proof of NP-completeness of the perfect matching free subgraph problem.
+\end{abstract}
+
+\section{Introduction}
+\begin{theorem}
+\label{theorem_1}
+Given a bipartite graph, if $M$ is a maximum cardinality matching and $S$ is a maximum stable set, then $|M|+|S|=|U\cup V|.$\hfill$\square$
+\end{theorem}
+
+Let $G=(U\cup V,E)$ be a bipartite graph such that $|U|=V|=n$. Let $U=\{u_1,\dots,u_n\}$ and $V=\{v_1,\dots,v_n\}$. Suppose that every edge of $E$ is labelled {\em true} or {\em false}, where an edge may have both true and false labels. For a node $u_i\in U$, let $E_i^t$ and $E_i^f$ demote the sets of edges incident to $u_i$ labelled true and false, respectively. The {\em perfect matching free subgraph problem} (PMFSP) in $G$ is to determine whether or not there exists a subgraph containing for each node $u_i\in U$ either $E_i^t$ or $E_i^f$ (but not both), and which is perfect matching free.
+
+\section{PMFSP and stable sets}
+Let $H=(V^1\cup V^2\cup V^3,F)$ be a tripartite graph where $|V^1|=|V^2|=|V^3|=n$, $V^j=\{v^j_1,\dots,v^j_n\}$ for $j=1,2,3$ and $V^1$ and $V^2$ are connected by the perfect matching $M=\{v^1_1v^2_1,v^1_2v^2_2,\dots,v^1_nv^2_n\}$. We will consider the following problem: does there exist a stable set in $H$ of size $n+1$? We will call this problem the {\em tripartite stable set with perfect matching problem} (TSSPMP).
+
+\begin{theorem}
+\label{theorem_2}
+TSSPMP reduces to PMFSP in polynomial time.
+\end{theorem}
+\begin{proof}
+We show that an instance of TSSPMP can be transformed into an instance of PMFSP. For an edge $v^1_iv^2_i$ of the perfect matching where $v^1_i\in V^1$ and $v^2_i\in V^2$, we consider a node $u_i$ in $U$. And for a node $v^3_i$ of $V^3$ we consider a node $u_i$ in $U$. And for node $v^3_i$ of $V^3$ we consider a node $v_i$ in $V$. Moreover, if $v^1_iv^3_k$ (resp. $v^2_iv^3_k$) is in $F$ for some $i,k\in\{1,\dots,n\}$, then we add an edge $u_iv_k$ in $E$ with label true (resp. false).
+
+In what follows, we will show that there exists a stable set in $H$ of size $n+1$ if and only if there exists a subgraph $G'=(U\cup V,E')$ of $G$ such that for each node $u_i\in U$, either $E^t_i\subset E'$ or $E^f_i\subset E'$, and $G'$ is perfect matching free. In fact, suppose first that there exists a subgraph $G'$ of $G$ that satisfies the required properties. Since $G'$ is perfect matching free, this implies that a maximum cardinality matching in $G'$ contains fewer than $n$ edges. As $|U\cup V|=2n$ by Theorem~\ref{theorem_1} there exists a stable set in $G'$, say $S'$, of size $|S'|\geq n+1$. Now from $S'$, we are going to construct a stable set in $H$ with the same cardinality. Let $S$ be the node subset of $H$ obtained as follows. For every node $v_j\in V\cap S'$, add node $v^3_j$ in $S$. And for every node $u_i\in U\cap S'$, add node $v^1_i$ in $S$ if $E^t_i\subseteq E'$ and node $v^i_2$ if $E^f_i\subseteq E'$. As $|S'|\geq n+1$, we have $|S|\geq n+1$. Now it is not hard to see that $S$ is a stable set. Moreover from a stable set in $H$ of size greater or equal to $n+1$ one can obtain along the same line a stable set in $G$ with the same cardinality.
+\end{proof}
+
+\section{The NP-completeness of PMFSP}
+\begin{theorem}
+\label{theorem_3}
+TSSPMP is NP-complete.
+\end{theorem}
+\begin{proof}
+Suppose we are given an instance of 1-in-3 3SAT with a set of $n$ literals $L=\{l_1,\dots,l_n\}$ and a set of $m$ clauses $C=\{C_1,\dots,C_m\}$. We shall construct an instance of TSSPMP on a graph $H=(V^1\cup V^2\cup V^3,F)$ where $|V^1|=|V^2|=|V^3|=p=3n+m-1$ and the set of edges between $V^1$ and $V^2$ correspond exactly to a perfect matching. We will show that $H$ has a stable set of size $p+1$ if and only if 1-in-3 3SAT admits a truth assignment. The construction will be done in 4 steps. First, with each literal $l_i\in L$, we associate the nodes $v^1_i,\bar{v}^1_i\in V^1$, $v^2_i,\bar{v}^2_i\in V^2$ and $v^3_i,\bar{v}^3_i\in V^3$, along with the edges $v^1_i\bar{v}^2_i,\bar{v}^2_iv^3_i,v^3_i\bar{v}^1_i,\bar{v}^1_iv^2_i,v^2_i\bar{v}^3_i,\bar{v}^3_iv^1_i$ in $F$. These nodes will be called {\em literal nodes} and the edges {\em literal edges}. Note that these edges form a cycle $\Gamma_i$. Moreover, if the stable set contains three nodes, these must be either $\{v^1_i,v^2_i,v^3_i\}$ or $\{\bar{v}^1_i,\bar{v}^2_i,\bar{v}^3_i\}$. For every $j\in\{1,\dots,m\}$ and $k\in\{1,2,3\}$, we associate with $x_j^k$ the node set $\{v^1_i,v^2_i,v^3_i\}$ (resp. $\{\bar{v}^1_i,\bar{v}^2_i,\bar{v}^3_i\}$) if $x_j^k=l_i$ (resp. $x_j^k=\bar{l}_i$) for some $i\in\{1,\dots,m\}$. As a consequence we have that $\{\bar{v}^1_i,\bar{v}^2_i,\bar{v}^3_i\}$ (resp. $v^1_i,v^2_i,v^3_i$) is associated with $\bar{x}_j^k$ if $x_j^k=l_i$ (resp. $x_j^k=\bar{l}_i$) for some $i\in\{1,\dots,m\}$.
+
+Next, we add for each clause $C_j$, $j=1,\dots,m$ the nodes $w^1_j\in V^1$, $w^2_j\in V^2$, $w^3_j\in V^3$ along with the edges $w^1_jw^2_j$, $w^2_jw^3_j$, $w^3_jw^1_j$. These nodes will be called {\em clause nodes}, the edges {\em clause edges}. Note that these edges form a triangle, which will be denoted by $T_j$, for $j=1,\dots,m$.
+
+In the next step, for each $C_j=(x_j^1,x_j^2,x_j^3)$, we add edges between $w^1_j$ (resp. $w^2_j$) and all the nodes associated with $\bar{x}_j^1$, $x_j^2$ and $x_j^3$ (resp. $x_j^1$, $\bar{x}_j^2$ and $x_j^3$) which belong to $V^3$. Moreover, we add edges between $w^3_j$ and all the nodes associated with $x_j^1$, $x_j^2$ and $\bar{x}_j^3$ which belong to $V^1$ and $V^2$. All these edges will be called {\em satisfiability edges}.
+
+Finally, we add the nodes $z^1_q\in V^1$, $z^2_q\in V^2$, $z^3_q\in V^3$ for $q=1,\dots,n-1$. These nodes will be called {\em fictitious nodes}. For each fictitious node in $V^1\cup V^2$, we add edges to connect this node to the all nodes in $V^3$. And for each fictitious node $V^3$, we add edges to connect this node to the all non fictitious nodes in $V^1\cup V^2$. We also add the edges $z^1_qz^2_q$ for $q=1,\dots,n-1$. Observe that $|V^1|=|V^2|=|V^3|=p$. Moreover, the edges between $V^1$ and $V^2$ form a perfect matching given by the edges $v^1_i\bar{v}^2_i$, $\bar{v}^1_iv^2_i$, $i=1,\dots,n$, $w^1_jw^2_j$, $j=1,\dots,m$, and $z^1_qz^2_q$, $q=1,\dots,n-1$.
+
+Thus, from an instance of the 1-in-3 3SAT with $n$ literals and $m$ clauses, we obtain a tripartite graph with $9n+3m-3$ nodes and $10n^2+4nm-5n+14m+1$ edges.
+
+\begin{claim}
+\label{claim_4}
+Any stable set in $H$ cannot contain more than $3n+m$ nodes. Moreover, if a stable set contains $3n+m$ nodes, then it does not contain any fictitious node.\hfill$\square$
+\end{claim}
+
+In what follows we show that there exists in $H$ a stable set of size $3n+m$ if and only if 1-in-3 3SAT admits a solution.
+
+\noindent($\Rightarrow$) Let $S$ be a stable set in $H$ of size $3n+m$. By Claim~\ref{claim_4}, $S$ does not contain any fictitious node. Thus, as $|S|=3n+m$, $S$ intersects each cycle $\Gamma_i$ in exactly three nodes and each triangle $T_j$ in exactly one node. Moreover, we have either $S\cap\Gamma_i=\{v^1_i,v^2_i,v^3_i\}$ or $S\cap \Gamma_i=\{\bar{v}^1_i,\bar{v}^2_i,\bar{v}^3_i\}$, for $i=1,\dots,n$. Consider the solution $I$ for 1-in-3 3SAT defined as follows. If $v^k_i\in S$ (resp. $\bar{v}^k_i\in S$), $k=1,2,3$, then associate the true (resp. false) value to the literal $l_i$, for $i=1,\dots,n$. In what follows we will show that for each clause $C_j=(x^1_j,x^2_j,x^3_j)$, we have exactly one variable with true value. For this it suffices to show that a clause node of $T_j$ is in $S$ if and only if the corresponding variable is of true value. Indeed, suppose that $w^1_j\in S$. We may suppose that $x^1_j=l_i$, the case where $x^1_j=\bar{l}_i$ is similar. By construction of $H$, as the satisfiability edge $w^1_j\bar{v}^3_i$ belongs to $F$, it follows that $\bar{v}^3_i\notin S$. By the remark above, this implies that $v^1_i$, $v^2_i$, $v^3_i$ belong to $S$. Therefore literal $l_i$ has a true value in solution $I$. Thus $x^1_j$ has a true value. It is similar for $w^2_j$ and $w^3_j$. Conversely, if $x^1_j=l_i$, then by definition of $I$, $v^1_i$, $v^2_i$, $v^3_i\in S$. Moreover, the satisfiability edges $w^2_jv^3_i$, $w^3_jv^2_i$ belong to $F$. As $|S\cap T_j|=1$, it follows that $w^1_j\in S$.
+
+As a consequence, as $S$ contains exactly one clause node from each $T_i$, it follows that each clause has exactly one true variable.
+
+\noindent($\Leftarrow$) Suppose that there exists a solution $I$ of 1-in-3 3SAT. Let $S$ be the node set obtained as follows. If $l_i$ has true value in $I$, then add $v^1_i$, $v^2_i$, $v^3_i$ to $S$, otherwise add $\bar{v}^1_i$, $\bar{v}^2_i$, $\bar{v}^3_i$ to $S$. For each clause $C_j=(x_j^1,x_j^2,x_j^3)$, $j=1,\dots,m$, add node $w^k_j$ to $S$ if $x_j^k$ has true value, for $k\in\{1,2,3\}$. We have that $|S|=3n+m$. We now show that $S$ is a stable set. For this, it suffices to show that no clause node in $S$ is adjacent to a literal node. Consider $j\in\{1,\dots,m\}$ and suppose that $x_j^1$ has a true value in $C_j$. (The case where $x_j^k$, $k\in\{2,3\}$, has a true value is similar.) Node $w^1_j$ associated with $x_j^1$, which is in $S$, is adjacent to exactly three literal nodes, namely the ones associated with $\bar{x}^1_j$, $x^2_j$ and $x^3_j$, in $V_3$. As $I$ is a solution of the 1-in-3 3SAT, and in consequence, these variables have all false values, by construction, the nodes corresponding to these variables do not belong to $S$. Therefore $w^1_j$ cannot be adjacent to one of these nodes, and hence the proof is complete.
+\end{proof}
+\end{document}
